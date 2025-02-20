@@ -4,8 +4,10 @@ defmodule ProjectOfferWeb.UserSessionController do
   alias ProjectOffer.Accounts
   alias ProjectOfferWeb.UserAuth
 
-  def create(conn, %{"_action" => "registered"} = params) do
-    create(conn, params, "Account created successfully!")
+  def create(conn, %{"_action" => "registered"}) do
+    conn
+    |> put_flash(:info, "Account created successfully! Please check your email to confirm the email address!")
+    |> redirect(to: ~p"/")
   end
 
   def create(conn, %{"_action" => "password_updated"} = params) do

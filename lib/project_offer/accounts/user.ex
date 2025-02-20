@@ -163,6 +163,10 @@ defmodule ProjectOffer.Accounts.User do
     false
   end
 
+  def can_login?(%__MODULE__{} = user) do
+    user.locked_account_at == nil and user.confirmed_at != nil
+  end
+
   @doc """
   Validates the current password otherwise adds an error to the changeset.
   """

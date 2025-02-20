@@ -40,7 +40,7 @@ defmodule ProjectOfferWeb.Router do
     scope "/dev" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: ProjectOfferWeb.Telemetry
+      live_dashboard "/live-dashboard", metrics: ProjectOfferWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
@@ -68,6 +68,8 @@ defmodule ProjectOfferWeb.Router do
       on_mount: [{ProjectOfferWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      live "/dashboard", DashboardLive, :index
     end
   end
 

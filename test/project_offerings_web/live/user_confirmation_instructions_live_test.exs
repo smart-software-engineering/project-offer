@@ -8,7 +8,7 @@ defmodule ProjectOfferWeb.UserConfirmationInstructionsLiveTest do
   alias ProjectOffer.Repo
 
   setup do
-    %{user: user_fixture()}
+    %{user: user_fixture_unconfirmed()}
   end
 
   describe "Resend confirmation" do
