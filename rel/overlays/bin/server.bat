@@ -1,2 +1,2 @@
 set PHX_SERVER=true
-call "%~dp0\project_offerings" start
+call "%~dp0\project_offer" start

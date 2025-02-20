@@ -1,5 +1,5 @@
-defmodule ProjectOfferingsWeb.PageControllerTest do
-  use ProjectOfferingsWeb.ConnCase
+defmodule ProjectOfferWeb.PageControllerTest do
+  use ProjectOfferWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

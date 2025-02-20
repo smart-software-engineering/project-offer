@@ -1,4 +1,4 @@
-# ProjectOfferings
+# ProjectOffer
 
 To start your Phoenix server:
 

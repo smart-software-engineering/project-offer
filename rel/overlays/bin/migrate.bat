@@ -1,1 +1,1 @@
-call "%~dp0\project_offerings" eval ProjectOfferings.Release.migrate
+call "%~dp0\project_offer" eval ProjectOffer.Release.migrate

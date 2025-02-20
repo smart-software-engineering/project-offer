@@ -7,19 +7,19 @@
 # General application configuration
 import Config
 
-config :project_offerings,
-  ecto_repos: [ProjectOfferings.Repo],
+config :project_offer,
+  ecto_repos: [ProjectOffer.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :project_offerings, ProjectOfferingsWeb.Endpoint,
+config :project_offer, ProjectOfferWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: ProjectOfferingsWeb.ErrorHTML, json: ProjectOfferingsWeb.ErrorJSON],
+    formats: [html: ProjectOfferWeb.ErrorHTML, json: ProjectOfferWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: ProjectOfferings.PubSub,
+  pubsub_server: ProjectOffer.PubSub,
   live_view: [signing_salt: "GGU8UvMQ"]
 
 # Configures the mailer
@@ -29,12 +29,12 @@ config :project_offerings, ProjectOfferingsWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :project_offerings, ProjectOfferings.Mailer, adapter: Swoosh.Adapters.Local
+config :project_offer, ProjectOffer.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  project_offerings: [
+  project_offer: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
@@ -44,7 +44,7 @@ config :esbuild,
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.3",
-  project_offerings: [
+  project_offer: [
     args: ~w(
       --config=tailwind.config.js
       --input=css/app.css

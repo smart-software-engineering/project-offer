@@ -1,9 +1,9 @@
-defmodule ProjectOfferings.MixProject do
+defmodule ProjectOffer.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :project_offerings,
+      app: :project_offer,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -20,7 +20,7 @@ defmodule ProjectOfferings.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {ProjectOfferings.Application, []},
+      mod: {ProjectOffer.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -34,6 +34,7 @@ defmodule ProjectOfferings.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.7.19"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
@@ -80,10 +81,10 @@ defmodule ProjectOfferings.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       coveralls: ["ecto.create --quiet", "ecto.migrate --quiet", "coveralls"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind project_offerings", "esbuild project_offerings"],
+      "assets.build": ["tailwind project_offer", "esbuild project_offer"],
       "assets.deploy": [
-        "tailwind project_offerings --minify",
-        "esbuild project_offerings --minify",
+        "tailwind project_offer --minify",
+        "esbuild project_offer --minify",
         "phx.digest"
       ]
     ]

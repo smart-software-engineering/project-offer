@@ -1,27 +1,30 @@
 import Config
 
+# Only in tests, remove the complexity from the password hashing algorithm
+config :bcrypt_elixir, :log_rounds, 1
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
-config :project_offerings, ProjectOfferings.Repo,
+config :project_offer, ProjectOffer.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "project_offerings_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "project_offer_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :project_offerings, ProjectOfferingsWeb.Endpoint,
+config :project_offer, ProjectOfferWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "ND6lt2Q8gtVLSaLbYH5c8KJNS4hphbj2O636F9XS/feKYsXWXTAIlxz39476fwG9",
   server: false
 
 # In test we don't send emails
-config :project_offerings, ProjectOfferings.Mailer, adapter: Swoosh.Adapters.Test
+config :project_offer, ProjectOffer.Mailer, adapter: Swoosh.Adapters.Test
 
 # Disable swoosh api client as it is only required for production adapters
 config :swoosh, :api_client, false
