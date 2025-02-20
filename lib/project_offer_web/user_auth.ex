@@ -1,4 +1,5 @@
 defmodule ProjectOfferWeb.UserAuth do
+  @moduledoc false
   use ProjectOfferWeb, :verified_routes
 
   import Plug.Conn

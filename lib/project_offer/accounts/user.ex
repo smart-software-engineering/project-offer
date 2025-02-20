@@ -1,4 +1,5 @@
 defmodule ProjectOffer.Accounts.User do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -142,7 +143,7 @@ defmodule ProjectOffer.Accounts.User do
   @doc """
   Unlocks the account by setting `locked_account_at` to nil.
   """
-  def lock_changeset(user) do
+  def unlock_changeset(user) do
     change(user, locked_account_at: nil)
   end
 
