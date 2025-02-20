@@ -63,7 +63,9 @@ defmodule ProjectOffer.MixProject do
       {:bandit, "~> 1.5"},
 
       {:excoveralls, "~> 0.18", only: :test},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:sentry, "~> 10.2.0"},
+      {:hackney, "~> 1.8"}
     ]
   end
 
