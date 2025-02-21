@@ -3,7 +3,7 @@ defmodule ProjectOffer.AccountsFixtures do
   This module defines test helpers for creating
   entities via the `ProjectOffer.Accounts` context.
   """
-alias ProjectOffer.Accounts.User
+  alias ProjectOffer.Accounts.User
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
   def valid_user_password, do: "hello world!"

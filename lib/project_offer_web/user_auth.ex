@@ -15,7 +15,7 @@ defmodule ProjectOfferWeb.UserAuth do
   @remember_me_options [sign: true, max_age: @max_age, same_site: "Lax"]
 
   @doc """
-  Logs the user in.
+  Logs the user in on a connection.
 
   It renews the session ID and clears the whole session
   to avoid fixation attacks. See the renew_session

@@ -160,9 +160,8 @@
           {Credo.Check.Warning.UnusedStringOperation, []},
           {Credo.Check.Warning.UnusedTupleOperation, []},
           {Credo.Check.Warning.WrongTestFileExtension, []},
-
-          {Credo.Check.Design.SkipTestWithoutComment, []},
-          ],
+          {Credo.Check.Design.SkipTestWithoutComment, []}
+        ],
         disabled: [
           #
           # Checks scheduled for next check update (opt-in for now)

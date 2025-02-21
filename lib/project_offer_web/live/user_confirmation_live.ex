@@ -5,21 +5,26 @@ defmodule ProjectOfferWeb.UserConfirmationLive do
 
   def render(%{live_action: :edit} = assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center">Confirm Account</.header>
+    <main class="px-4 py-20 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <.flash_group flash={@flash} />
+        <div class="mx-auto max-w-sm">
+          <.header class="text-center">Confirm Account</.header>
 
-      <.simple_form for={@form} id="confirmation_form" phx-submit="confirm_account">
-        <input type="hidden" name={@form[:token].name} value={@form[:token].value} />
-        <:actions>
-          <.button phx-disable-with="Confirming..." class="w-full">Confirm my account</.button>
-        </:actions>
-      </.simple_form>
+          <.simple_form for={@form} id="confirmation_form" phx-submit="confirm_account">
+            <input type="hidden" name={@form[:token].name} value={@form[:token].value} />
+            <:actions>
+              <.button phx-disable-with="Confirming..." class="w-full">Confirm my account</.button>
+            </:actions>
+          </.simple_form>
 
-      <p class="text-center mt-4">
-        <.link href={~p"/users/register"}>Register</.link>
-        | <.link href={~p"/users/log_in"}>Log in</.link>
-      </p>
-    </div>
+          <p class="text-center mt-4">
+            <.link href={~p"/users/register"}>Register</.link>
+            | <.link href={~p"/users/log_in"}>Log in</.link>
+          </p>
+        </div>
+      </div>
+    </main>
     """
   end
 
@@ -30,6 +35,7 @@ defmodule ProjectOfferWeb.UserConfirmationLive do
 
   # Do not log in the user after confirmation to avoid a
   # leaked token giving the user access to the account.
+  # TODO: Log the user in and send him to the dashboard!
   def handle_event("confirm_account", %{"user" => %{"token" => token}}, socket) do
     case Accounts.confirm_user(token) do
       {:ok, _} ->

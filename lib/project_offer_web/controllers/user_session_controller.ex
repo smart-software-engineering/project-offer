@@ -6,7 +6,10 @@ defmodule ProjectOfferWeb.UserSessionController do
 
   def create(conn, %{"_action" => "registered"}) do
     conn
-    |> put_flash(:info, "Account created successfully! Please check your email to confirm the email address!")
+    |> put_flash(
+      :info,
+      "Account created successfully! Please check your email to confirm the email address!"
+    )
     |> redirect(to: ~p"/")
   end
 
