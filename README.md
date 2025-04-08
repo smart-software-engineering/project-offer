@@ -1,18 +1,12 @@
-# ProjectOffer
+# Project Offer
 
-To start your Phoenix server:
+A simple tool to just create project offers.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+Every project template has 4 parts:
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+* a htmx form
+* a html template for rendering the page (render first field and show filled form)
+* styling for both
+* the page which is sent to api2pdf
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Once the preview is made, the recipients are defined and can then be sent out via skribble. Once signed there will be a notification.
