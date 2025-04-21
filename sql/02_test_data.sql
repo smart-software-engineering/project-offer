@@ -19,7 +19,8 @@ INSERT INTO employees (name, email, role, salary) VALUES
     ('Lisa Junior', 'lisa@company.example', 'Junior', 28000),
     ('David Senior', 'david@company.example', 'Senior', 62000),
     ('Emma Professional', 'emma@company.example', 'Professional', 42000),
-    ('Tom Junior', 'tom@company.example', 'Junior', 27000);
+    ('Tom Junior', 'tom@company.example', 'Junior', 27000),
+    ('Max Specialist', 'max.specialist@company.example', 'Principal', 150000);
 
 -- Insert employee costs (annual costs in EUR)
 INSERT INTO employee_costs (name, cost_per_year) VALUES
@@ -32,30 +33,35 @@ INSERT INTO employee_costs (name, cost_per_year) VALUES
 
 -- Insert offers with various team sizes and statuses
 -- Draft offers (3)
-INSERT INTO offers (client_id, timeframe, requirements, multiplier, status)
+INSERT INTO offers (client_id, timeframe, requirements, risk_multiplier, discount_amount, discount_explanation, status)
 VALUES 
-    (1, 2, E'# User Authentication System\n\nImplement a secure authentication system using JWT tokens and role-based access control.\n\n| Feature | Priority |\n|---------|----------|\n| Login | High |\n| Password Reset | Medium |', 1.8, 'draft'),
-    (2, 6, E'# E-commerce Integration\n\nDevelop API endpoints for product management and order processing.', 1.7, 'draft'),
-    (3, 2, E'# Mobile App Backend\n\nBuild RESTful APIs for the mobile application with proper documentation.', 1.8, 'draft');
+    (1, 2, E'# User Authentication System\n\nImplement a secure authentication system using JWT tokens and role-based access control.\n\n| Feature | Priority |\n|---------|----------|\n| Login | High |\n| Password Reset | Medium |', 1.8, 0.0, NULL, 'draft'),
+    (2, 6, E'# E-commerce Integration\n\nDevelop API endpoints for product management and order processing.', 1.7, 0.0, NULL, 'draft'),
+    (3, 2, E'# Mobile App Backend\n\nBuild RESTful APIs for the mobile application with proper documentation.', 1.8, 0.0, NULL, 'draft');
 
 -- Sent offers (3)
-INSERT INTO offers (client_id, timeframe, requirements, multiplier, status)
+INSERT INTO offers (client_id, timeframe, requirements, risk_multiplier, discount_amount, discount_explanation, status)
 VALUES 
-    (2, 2, E'# Payment Gateway Integration\n\nImplement secure payment processing with Stripe.', 1.8, 'sent'),
-    (3, 6, E'# Data Analytics Dashboard\n\nCreate a real-time analytics dashboard with filtering capabilities.', 1.7, 'sent'),
-    (4, 2, E'# Content Management System\n\nDevelop a headless CMS with markdown support.', 1.8, 'sent');
+    (2, 2, E'# Payment Gateway Integration\n\nImplement secure payment processing with Stripe.', 1.8, 0.0, NULL, 'sent'),
+    (3, 6, E'# Data Analytics Dashboard\n\nCreate a real-time analytics dashboard with filtering capabilities.', 1.7, 0.0, NULL, 'sent'),
+    (4, 2, E'# Content Management System\n\nDevelop a headless CMS with markdown support.', 1.8, 0.0, NULL, 'sent');
 
 -- Accepted offers (2)
-INSERT INTO offers (client_id, timeframe, requirements, multiplier, discount_amount, discount_explanation, status)
+INSERT INTO offers (client_id, timeframe, requirements, risk_multiplier, discount_amount, discount_explanation, status)
 VALUES 
     (3, 6, E'# Enterprise Resource Planning System\n\nDevelop core modules for:\n- Human Resources\n- Inventory Management\n- Financial Reporting\n\n## Technical Requirements\n\n| Module | Integration |\n|--------|-------------|\n| HR | Active Directory |\n| Inventory | Existing WMS |\n| Finance | SAP |', 1.7, 3.00, 'Long-term client discount', 'accepted'),
     (5, 2, E'# API Gateway Development\n\nImplement a scalable API gateway with rate limiting.', 1.8, 2.00, 'Strategic partnership discount', 'accepted');
 
 -- Rejected offers (2)
-INSERT INTO offers (client_id, timeframe, requirements, multiplier, status)
+INSERT INTO offers (client_id, timeframe, requirements, risk_multiplier, discount_amount, discount_explanation, status)
 VALUES 
-    (4, 6, E'# Legacy System Migration\n\nMigrate from monolithic architecture to microservices.', 1.9, 'rejected'),
-    (5, 2, E'# Reporting Engine\n\nBuild a customizable report generation system.', 1.8, 'rejected');
+    (4, 6, E'# Legacy System Migration\n\nMigrate from monolithic architecture to microservices.', 1.9, 0.0, NULL, 'rejected'),
+    (5, 2, E'# Reporting Engine\n\nBuild a customizable report generation system.', 1.8, 0.0, NULL, 'rejected');
+
+-- Add a special high-value offer for the specialist
+INSERT INTO offers (client_id, timeframe, requirements, risk_multiplier, discount_amount, discount_explanation, status)
+VALUES 
+    (1, 2, E'# AI System Architecture Consultation\n\nSpecialist consultation for designing and implementing a cutting-edge AI system architecture.\n\n## Key Areas:\n- System Architecture Design\n- Performance Optimization\n- Scalability Planning\n- Integration Strategy\n\n## Deliverables:\n- Architecture Documentation\n- Implementation Roadmap\n- Technical Specifications\n- Risk Assessment', 2.5, 0.0, NULL, 'sent');
 
 -- Add employees to offers with different team sizes
 -- Draft offers team assignments
@@ -88,3 +94,10 @@ INSERT INTO offer_employees (offer_id, employee_id, role) VALUES
     (9, 1, 'Principal'),                              -- 2 person team
     (9, 3, 'Professional'),
     (10, 5, 'Senior');                                -- 1 person team
+
+-- Add specialist to their dedicated offer
+INSERT INTO offer_employees (offer_id, employee_id, role)
+SELECT 
+    (SELECT MAX(id) FROM offers), -- Get the ID of the offer we just inserted
+    (SELECT id FROM employees WHERE email = 'max.specialist@company.example'),
+    'Principal';

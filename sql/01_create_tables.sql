@@ -38,14 +38,13 @@ CREATE TABLE IF NOT EXISTS offers (
     client_id INTEGER NOT NULL REFERENCES clients(id),
     timeframe INTEGER NOT NULL CHECK (timeframe IN (2, 6)),
     requirements TEXT,
-    multiplier DECIMAL(5, 2),
-    discount_amount DECIMAL(5, 2),
+    risk_multiplier DECIMAL(5, 2) NOT NULL CHECK ((risk_multiplier > 1) AND (risk_multiplier <= 2)),
+    discount_amount DECIMAL(5, 2) NOT NULL DEFAULT 0.0 CHECK (discount_amount >= 0),
     discount_explanation TEXT,
     status offer_status DEFAULT 'draft',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    CHECK ((discount_amount IS NULL) OR 
-           (discount_amount IS NOT NULL AND discount_explanation IS NOT NULL))
+    CHECK (discount_amount > 0 AND discount_explanation IS NOT NULL)
 );
 
 -- Create offer_employees junction table
