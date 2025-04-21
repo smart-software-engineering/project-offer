@@ -1,0 +1,82 @@
+name: Build and Deploy
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+  
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        ports: ['5432:5432']
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST_AUTH_METHOD: 'trust'
+          POSTGRES_DB: freelancer_cv_test
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup elixir
+      uses: erlef/setup-beam@v1
+      with:
+        version-file: .tool-versions
+        version-type: strict
+
+    - name: Get deps cache
+      uses: actions/cache@v4
+      with:
+        path: deps/
+        key: deps-${{ runner.os }}-${{ hashFiles('**/mix.lock') }}
+
+    - name: Get build cache
+      uses: actions/cache@v4
+      with:
+        path: _build/test/
+        key: build-${{ runner.os }}-${{ hashFiles('**/mix.lock') }}
+
+    - name: Install Dependencies
+      run: |
+        mix local.hex --force
+        mix deps.get
+        mix deps.compile
+
+    - name: Compile Code
+      run: |
+        mix compile
+
+    - name: Run Coveralls
+      # run: mix coveralls.github
+      run: mix coveralls
+      env:
+        MIX_ENV: test
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Run Credo
+      # TODO: run: mix credo diff --from-git-merge-base origin/main
+      run: mix credo --mute-exit-status 
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Fly Deployment Setup
+      uses: superfly/flyctl-actions/setup-flyctl@master
+    - name: Deploy to Fly
+      run: flyctl deploy --remote-only
+      env:
+        FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
