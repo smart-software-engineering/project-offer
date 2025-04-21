@@ -1,0 +1,101 @@
+{{define "content"}}
+<article>
+    <header>
+        <h2>Create New Offer</h2>
+    </header>
+    
+    <form hx-post="/api/offers" 
+          hx-trigger="submit"
+          hx-target="#form-response"
+          enctype="multipart/form-data">
+        
+        <div class="grid">
+            <!-- Client Selection -->
+            <div>
+                <label for="client">Client</label>
+                <select id="client" name="client_id" required
+                        hx-get="/api/clients"
+                        hx-trigger="load">
+                    <option value="">Select a client...</option>
+                </select>
+                <button type="button" 
+                        hx-get="/api/clients/new"
+                        hx-target="#new-client-form"
+                        class="secondary">
+                    Add New Client
+                </button>
+                <div id="new-client-form"></div>
+            </div>
+
+            <!-- Team Selection -->
+            <div>
+                <label>Team Members</label>
+                <div hx-get="/api/employees/select"
+                     hx-trigger="load"
+                     class="employee-select">
+                    Loading employees...
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Details -->
+        <div class="grid">
+            <div>
+                <label for="timeframe">Project Timeframe</label>
+                <select id="timeframe" name="timeframe" required>
+                    <option value="2">2 Weeks</option>
+                    <option value="6">6 Weeks</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="risk_factor">Risk Factor</label>
+                <input type="number" 
+                       id="risk_factor" 
+                       name="risk_factor" 
+                       min="1.0" 
+                       max="2.0" 
+                       step="0.1" 
+                       value="1.5" 
+                       required>
+            </div>
+        </div>
+
+        <!-- Requirements File -->
+        <div>
+            <label for="requirements">Requirements (Markdown file)</label>
+            <input type="file" 
+                   id="requirements" 
+                   name="requirements"
+                   accept=".md,text/markdown"
+                   required>
+        </div>
+
+        <!-- Discount -->
+        <div class="grid">
+            <div>
+                <label for="discount_amount">Discount Amount</label>
+                <input type="number" 
+                       id="discount_amount" 
+                       name="discount_amount"
+                       min="0"
+                       step="0.01">
+            </div>
+            <div>
+                <label for="discount_explanation">Discount Explanation</label>
+                <input type="text" 
+                       id="discount_explanation" 
+                       name="discount_explanation"
+                       hx-validate="true">
+            </div>
+        </div>
+
+        <div class="grid">
+            <button type="submit">Calculate & Preview Offer</button>
+            <button type="reset" class="secondary">Reset Form</button>
+        </div>
+
+        <div id="form-response"></div>
+    </form>
+</article>
+{{end}}

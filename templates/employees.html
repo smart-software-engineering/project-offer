@@ -1,0 +1,92 @@
+{{define "content"}}
+<article>
+    <header>
+        <h2>Employee Management</h2>
+    </header>
+
+    <!-- Employee Form -->
+    <article>
+        <header>
+            <h3>Add New Employee</h3>
+        </header>
+        <form hx-post="/api/employees/create" 
+              hx-target="#employee-list"
+              hx-swap="afterbegin">
+            <div class="grid">
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+            <div class="grid">
+                <div>
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required>
+                        <option value="Principal">Principal</option>
+                        <option value="Senior">Senior</option>
+                        <option value="Professional">Professional</option>
+                        <option value="Junior">Junior</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="salary">Yearly Salary (EUR)</label>
+                    <input type="number" id="salary" name="salary" min="0" step="1000" required>
+                </div>
+            </div>
+            <button type="submit">Add Employee</button>
+        </form>
+    </article>
+
+    <!-- Employee List -->
+    <article>
+        <header>
+            <h3>Current Employees</h3>
+        </header>
+        <div id="employee-list"
+             hx-get="/api/employees" 
+             hx-trigger="load, employeeCreated from:body">
+            <p>Loading employees...</p>
+        </div>
+    </article>
+</article>
+
+<!-- Employee List Template -->
+{{define "employee-list"}}
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Salary</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range .}}
+        <tr>
+            <td>{{.Name}}</td>
+            <td>{{.Email}}</td>
+            <td>{{.Role}}</td>
+            <td>€{{.YearlySalary}}</td>
+            <td>
+                <button class="secondary outline"
+                        hx-delete="/api/employees/{{.ID}}"
+                        hx-confirm="Are you sure you want to delete this employee?">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        {{else}}
+        <tr>
+            <td colspan="5">No employees found</td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+{{end}}
+{{end}}

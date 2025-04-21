@@ -1,0 +1,28 @@
+{{define "content"}}
+<div class="grid">
+    <div>
+        <article>
+            <header>
+                <h2>Current Offers</h2>
+            </header>
+            <div hx-get="/api/offers" 
+                 hx-trigger="load"
+                 hx-swap="innerHTML">
+                Loading offers...
+            </div>
+        </article>
+    </div>
+    <div>
+        <article>
+            <header>
+                <h2>Team Members</h2>
+            </header>
+            <div hx-get="/api/employees" 
+                 hx-trigger="load"
+                 hx-swap="innerHTML">
+                Loading employees...
+            </div>
+        </article>
+    </div>
+</div>
+{{end}}

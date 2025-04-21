@@ -1,0 +1,38 @@
+/* Custom styles beyond Pico CSS */
+.htmx-indicator {
+    opacity: 0;
+    transition: opacity 200ms ease-in;
+}
+.htmx-request .htmx-indicator {
+    opacity: 1
+}
+.htmx-request.htmx-indicator {
+    opacity: 1
+}
+
+/* Grid adjustments */
+.grid {
+    gap: 2rem;
+}
+
+/* Form styling */
+form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Table improvements */
+table {
+    width: 100%;
+}
+
+/* Status indicators */
+.status-badge {
+    padding: 0.2em 0.6em;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+.status-draft { background-color: #f0f0f0; }
+.status-sent { background-color: #e1f5fe; }
+.status-accepted { background-color: #e8f5e9; }
+.status-rejected { background-color: #ffebee; }

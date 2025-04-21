@@ -1,0 +1,71 @@
+{{define "content"}}
+<article>
+    <header>
+        <h2>Project Offers</h2>
+        <div>
+            <a href="/offers/new" role="button">Create New Offer</a>
+        </div>
+    </header>
+
+    <!-- Offer List -->
+    <div id="offer-list"
+         hx-get="/api/offers" 
+         hx-trigger="load, offerCreated from:body">
+        <p>Loading offers...</p>
+    </div>
+</article>
+
+<!-- Offer List Template -->
+{{define "offer-list"}}
+<div class="grid">
+    {{range .}}
+    <article>
+        <header>
+            <strong>{{.Client.Name}}</strong>
+            <span class="status-badge status-{{.Status}}">{{.Status}}</span>
+        </header>
+        <p>
+            <strong>Time Frame:</strong> {{.TimeFrame}} weeks<br>
+            <strong>Risk Factor:</strong> {{.RiskFactor}}<br>
+            <strong>Team Size:</strong> {{len .Employees}} members
+        </p>
+        {{if .Discount}}
+        <footer>
+            <small>
+                Discount: €{{.Discount.Amount}}<br>
+                Reason: {{.Discount.Explanation}}
+            </small>
+        </footer>
+        {{end}}
+        <div class="grid">
+            <a href="/offers/{{.ID}}" role="button" class="outline">View Details</a>
+            {{if eq .Status "draft"}}
+            <button class="secondary"
+                    hx-put="/api/offers/{{.ID}}/send"
+                    hx-confirm="Are you sure you want to send this offer to the client?">
+                Send to Client
+            </button>
+            {{else if eq .Status "sent"}}
+            <div class="grid">
+                <button class="success outline"
+                        hx-put="/api/offers/{{.ID}}/accept"
+                        hx-confirm="Mark this offer as accepted?">
+                    Accept
+                </button>
+                <button class="error outline"
+                        hx-put="/api/offers/{{.ID}}/reject"
+                        hx-confirm="Mark this offer as rejected?">
+                    Reject
+                </button>
+            </div>
+            {{end}}
+        </div>
+    </article>
+    {{else}}
+    <article>
+        <p>No offers found. <a href="/offers/new">Create your first offer</a></p>
+    </article>
+    {{end}}
+</div>
+{{end}}
+{{end}}

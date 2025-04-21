@@ -1,0 +1,132 @@
+{{define "offer"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Offer - {{.Offer.Client.Name}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2em;
+        }
+        .client-info, .project-info {
+            margin-bottom: 2em;
+        }
+        .team-members {
+            margin: 2em 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .requirements {
+            margin: 2em 0;
+        }
+        .price-info {
+            margin: 2em 0;
+            padding: 1em;
+            background-color: #f8f9fa;
+        }
+        .signature-area {
+            margin-top: 4em;
+            page-break-inside: avoid;
+        }
+        .signature-line {
+            margin-top: 3em;
+            border-top: 1px solid #000;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Project Offer</h1>
+        <p>Reference: {{.Offer.ID}}</p>
+        <p>Date: {{.Offer.CreatedAt.Format "January 2, 2006"}}</p>
+    </div>
+
+    <div class="client-info">
+        <h2>Client Information</h2>
+        <p>
+            <strong>{{.Offer.Client.Name}}</strong><br>
+            {{.Offer.Client.Address}}
+        </p>
+    </div>
+
+    <div class="project-info">
+        <h2>Project Details</h2>
+        <p><strong>Time Frame:</strong> {{.Offer.TimeFrame}} weeks</p>
+        <p><strong>Start Date:</strong> Upon agreement signature</p>
+    </div>
+
+    <div class="team-members">
+        <h2>Project Team</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Experience Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Offer.Employees}}
+                <tr>
+                    <td>{{.Role}}</td>
+                    <td>{{.Name}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="requirements">
+        <h2>Project Requirements</h2>
+        {{.RequirementsHTML}}
+    </div>
+
+    <div class="price-info">
+        <h2>Project Investment</h2>
+        <p><strong>Total Project Cost:</strong> €{{.Offer.TotalCost}}</p>
+        {{if .Offer.Discount}}
+        <p>
+            <strong>Applied Discount:</strong> €{{.Offer.Discount.Amount}}<br>
+            <em>{{.Offer.Discount.Explanation}}</em>
+        </p>
+        <p><strong>Final Price:</strong> €{{.Offer.FinalPrice}}</p>
+        {{end}}
+    </div>
+
+    <div class="signature-area">
+        <p>To proceed with this project, please sign this document electronically via Skribble.</p>
+        
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <p class="signature-line">Client Signature</p>
+                <p>{{.Offer.Client.Name}}</p>
+                <p>Date: _________________</p>
+            </div>
+            
+            <div>
+                <p class="signature-line">Smart Software Engineering SRL</p>
+                <p>Representative</p>
+                <p>Date: {{.Offer.CreatedAt.Format "January 2, 2006"}}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{{end}}
